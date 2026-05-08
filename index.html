@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competitor Email Intelligence — May 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1917;
+  --ink-2: #4a4845;
+  --ink-3: #8a8785;
+  --paper: #faf9f6;
+  --paper-2: #f2f0eb;
+  --paper-3: #e8e4dc;
+  --accent: #c8602a;
+  --accent-2: #e8a87c;
+  --teal: #1d6f6e;
+  --teal-light: #e8f4f3;
+  --blue: #2a5c8a;
+  --blue-light: #e8f0f8;
+  --green: #3a6b3a;
+  --green-light: #e8f2e8;
+  --rule: rgba(26,25,23,0.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+.masthead{background:var(--ink);color:var(--paper);padding:3rem 0 0;position:relative;overflow:hidden}
+.masthead::before{content:'';position:absolute;top:-60px;right:-60px;width:320px;height:320px;border-radius:50%;background:var(--accent);opacity:.08}
+.masthead-inner{max-width:920px;margin:0 auto;padding:0 2.5rem}
+.kicker{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2);margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+.kicker::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent-2)}
+h1.report-title{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:400;line-height:1.1;letter-spacing:-.02em;color:var(--paper);margin-bottom:1.2rem}
+h1.report-title em{font-style:italic;color:var(--accent-2)}
+.report-meta{font-size:13px;color:rgba(250,249,246,.5);font-weight:300;margin-bottom:2.5rem;display:flex;gap:2rem;flex-wrap:wrap}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(250,249,246,.12);margin-top:1rem}
+.kpi-item{padding:1.5rem;border-right:1px solid rgba(250,249,246,.12)}
+.kpi-item:last-child{border-right:none}
+.kpi-num{font-family:'DM Serif Display',serif;font-size:2.8rem;color:var(--accent-2);line-height:1;margin-bottom:.3rem}
+.kpi-label{font-size:11px;font-weight:300;color:rgba(250,249,246,.5);letter-spacing:.05em;text-transform:uppercase}
+
+.main{max-width:920px;margin:0 auto;padding:0 2.5rem 5rem}
+.section-header{display:flex;align-items:baseline;gap:1rem;margin:3.5rem 0 1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--rule)}
+.section-header h2{font-family:'DM Serif Display',serif;font-size:1.7rem;font-weight:400;letter-spacing:-.01em}
+.section-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-3);letter-spacing:.1em}
+
+.freq-table{width:100%;border-collapse:collapse;margin:1rem 0}
+.freq-table thead tr{border-bottom:2px solid var(--ink)}
+.freq-table th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:400;padding:.6rem .8rem;text-align:left}
+.freq-table td{padding:.7rem .8rem;font-size:14px;border-bottom:1px solid var(--rule);vertical-align:middle}
+.freq-table tbody tr:hover{background:var(--paper-2)}
+.brand-cell{font-weight:500}
+.domain-cell{font-size:12px;color:var(--ink-3);font-family:'DM Mono',monospace}
+.count-cell{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--accent)}
+.bar-cell{width:160px}
+.bar-track{background:var(--paper-3);border-radius:2px;height:6px;overflow:hidden}
+.bar-fill{height:100%;background:var(--accent);border-radius:2px}
+.vol-badge{display:inline-block;font-size:10px;font-family:'DM Mono',monospace;letter-spacing:.08em;padding:2px 8px;border-radius:20px;text-transform:uppercase}
+.vol-high{background:var(--green-light);color:var(--green)}
+.vol-mid{background:var(--blue-light);color:var(--blue)}
+.vol-low{background:var(--paper-3);color:var(--ink-3)}
+
+.sender-grid{display:flex;flex-direction:column;gap:2px;margin:1rem 0}
+.sender-card{background:var(--paper);border:1px solid var(--rule);border-radius:2px;overflow:hidden;transition:box-shadow .2s}
+.sender-card:hover{box-shadow:0 4px 24px rgba(26,25,23,.08)}
+.sender-head{display:grid;grid-template-columns:1fr auto;align-items:start;padding:1.25rem 1.5rem 1rem;background:var(--paper-2);border-bottom:1px solid var(--rule);gap:1rem}
+.sender-name{font-family:'DM Serif Display',serif;font-size:1.25rem;font-weight:400;letter-spacing:-.01em;margin-bottom:2px}
+.sender-domain{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-3)}
+.sender-freq{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--accent);line-height:1;text-align:right;white-space:nowrap}
+.sender-freq-label{font-size:10px;color:var(--ink-3);font-family:'DM Sans',sans-serif;font-weight:300;text-align:right}
+.sender-subjects{padding:.75rem 1.5rem;background:var(--ink);font-size:12px;color:rgba(250,249,246,.6);font-style:italic;line-height:1.5;border-bottom:1px solid var(--rule)}
+.sender-subjects strong{color:rgba(250,249,246,.4);font-style:normal;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-family:'DM Mono',monospace;font-weight:400;margin-right:6px}
+.sender-body{display:grid;grid-template-columns:1fr 1fr}
+.sender-col{padding:1.25rem 1.5rem}
+.sender-col:first-child{border-right:1px solid var(--rule)}
+.sender-col-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem;font-weight:500}
+.sender-col p{font-size:13.5px;color:var(--ink-2);line-height:1.65}
+.tag-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:.75rem}
+.tag{font-size:10px;font-family:'DM Mono',monospace;padding:2px 8px;border-radius:20px;letter-spacing:.05em;border:1px solid}
+.tag-disc{background:var(--green-light);color:var(--green);border-color:rgba(58,107,58,.2)}
+.tag-dest{background:var(--teal-light);color:var(--teal);border-color:rgba(29,111,110,.2)}
+.tag-tone{background:#fdf2ec;color:var(--accent);border-color:rgba(200,96,42,.2)}
+.tag-seg{background:var(--blue-light);color:var(--blue);border-color:rgba(42,92,138,.2)}
+
+.insights-grid{display:flex;flex-direction:column;gap:1rem;margin:1rem 0}
+.insight-card{display:grid;grid-template-columns:48px 1fr;gap:1.25rem;padding:1.5rem;border:1px solid var(--rule);border-radius:2px;background:var(--paper);align-items:start}
+.insight-num{font-family:'DM Serif Display',serif;font-size:2.5rem;color:var(--paper-3);line-height:1;user-select:none}
+.insight-title{font-family:'DM Serif Display',serif;font-size:1.1rem;font-weight:400;margin-bottom:.4rem;color:var(--ink)}
+.insight-body{font-size:14px;color:var(--ink-2);line-height:1.7}
+.insight-body strong{color:var(--ink);font-weight:500}
+
+footer{background:var(--ink);color:rgba(250,249,246,.4);padding:2rem 2.5rem;font-size:12px;font-family:'DM Mono',monospace;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;letter-spacing:.05em}
+
+@media(max-width:640px){
+  .kpi-strip{grid-template-columns:repeat(2,1fr)}
+  .kpi-item{border-right:none;border-bottom:1px solid rgba(250,249,246,.12)}
+  .sender-body{grid-template-columns:1fr}
+  .sender-col:first-child{border-right:none;border-bottom:1px solid var(--rule)}
+  .main{padding:0 1.25rem 3rem}
+  .masthead-inner{padding:0 1.25rem}
+  .bar-cell{display:none}
+  footer{flex-direction:column;align-items:flex-start}
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.sender-card{animation:fadeUp .4s ease both}
+.sender-card:nth-child(1){animation-delay:.05s}
+.sender-card:nth-child(2){animation-delay:.1s}
+.sender-card:nth-child(3){animation-delay:.15s}
+.sender-card:nth-child(4){animation-delay:.2s}
+.sender-card:nth-child(5){animation-delay:.25s}
+.sender-card:nth-child(6){animation-delay:.3s}
+.sender-card:nth-child(7){animation-delay:.35s}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="kicker">Competitor intelligence</p>
+    <h1 class="report-title">Travel Email<br><em>Marketing Monitor</em></h1>
+    <div class="report-meta">
+      <span>&#128197; 8 May 2026</span>
+      <span>&#128202; Analysis window: 10 days</span>
+      <span>&#128235; 13 senders &middot; 47+ emails</span>
+    </div>
+  </div>
+  <div class="kpi-strip">
+    <div class="kpi-item"><div class="kpi-num">13</div><div class="kpi-label">Senders tracked</div></div>
+    <div class="kpi-item"><div class="kpi-num">47+</div><div class="kpi-label">Emails analysed</div></div>
+    <div class="kpi-item"><div class="kpi-num">9</div><div class="kpi-label">Discount offers</div></div>
+    <div class="kpi-item"><div class="kpi-num">70%</div><div class="kpi-label">Max discount seen</div></div>
+  </div>
+</header>
+
+<main class="main">
+
+  <div class="section-header"><span class="section-num">01</span><h2>Send frequency</h2></div>
+  <table class="freq-table">
+    <thead><tr><th>Brand</th><th>Domain</th><th>Emails</th><th>Volume</th><th>Frequency bar</th></tr></thead>
+    <tbody>
+      <tr><td class="brand-cell">TourRadar</td><td class="domain-cell">explore@mail.tourradar.com</td><td class="count-cell">7</td><td><span class="vol-badge vol-high">High</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div></td></tr>
+      <tr><td class="brand-cell">Exoticca</td><td class="domain-cell">news@email.exoticca.com</td><td class="count-cell">5</td><td><span class="vol-badge vol-high">High</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:71%"></div></div></td></tr>
+      <tr><td class="brand-cell">Intrepid Travel</td><td class="domain-cell">intrepid@edm.intrepidtravel.com</td><td class="count-cell">4</td><td><span class="vol-badge vol-high">High</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:57%"></div></div></td></tr>
+      <tr><td class="brand-cell">Luxury Escapes</td><td class="domain-cell">email@m.luxuryescapes.com</td><td class="count-cell">4</td><td><span class="vol-badge vol-high">High</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:57%"></div></div></td></tr>
+      <tr><td class="brand-cell">Flashpack</td><td class="domain-cell">readytoescape@flashpack.com</td><td class="count-cell">4</td><td><span class="vol-badge vol-high">High</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:57%"></div></div></td></tr>
+      <tr><td class="brand-cell">WeRoad</td><td class="domain-cell">hello@mail.weroad.com</td><td class="count-cell">3</td><td><span class="vol-badge vol-mid">Medium</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:43%"></div></div></td></tr>
+      <tr><td class="brand-cell">Bunnik Tours</td><td class="domain-cell">reply@email.bunniktours.com.au</td><td class="count-cell">3</td><td><span class="vol-badge vol-mid">Medium</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:43%"></div></div></td></tr>
+      <tr><td class="brand-cell">Trafalgar</td><td class="domain-cell">newsletter@em.trafalgar.com</td><td class="count-cell">2</td><td><span class="vol-badge vol-mid">Medium</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:29%"></div></div></td></tr>
+      <tr><td class="brand-cell">Exodus Travels</td><td class="domain-cell">exmktg@exodus.co.uk</td><td class="count-cell">2</td><td><span class="vol-badge vol-mid">Medium</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:29%"></div></div></td></tr>
+      <tr><td class="brand-cell">Trailfinders</td><td class="domain-cell">subscribe@mailer.trailfinders.com</td><td class="count-cell">2</td><td><span class="vol-badge vol-mid">Medium</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:29%"></div></div></td></tr>
+      <tr><td class="brand-cell">Tripadeal</td><td class="domain-cell">noreply@e.tripadeal.com.au</td><td class="count-cell">2</td><td><span class="vol-badge vol-mid">Medium</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:29%"></div></div></td></tr>
+      <tr><td class="brand-cell">Contiki</td><td class="domain-cell">newsletter@exactmail.contiki.com</td><td class="count-cell">1</td><td><span class="vol-badge vol-low">Low</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:14%"></div></div></td></tr>
+      <tr><td class="brand-cell">APT Luxury Travel</td><td class="domain-cell">email@email.aptouring.com</td><td class="count-cell">1</td><td><span class="vol-badge vol-low">Low</span></td><td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:14%"></div></div></td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-header"><span class="section-num">02</span><h2>Sender profiles</h2></div>
+  <div class="sender-grid">
+
+    <div class="sender-card">
+      <div class="sender-head"><div><div class="sender-name">TourRadar</div><div class="sender-domain">explore@mail.tourradar.com</div></div><div><div class="sender-freq">7</div><div class="sender-freq-label">emails / 10 days</div></div></div>
+      <div class="sender-subjects"><strong>Subject lines</strong> "Up to 50% off cultural tours" &middot; "Only 1 day left: up to 50% off bestselling destinations" &middot; "$3,000 in Travel Credits up for grabs"</div>
+      <div class="sender-body">
+        <div class="sender-col"><div class="sender-col-label">Messaging strategy</div><p>Highest volume sender. Heavily discount-led with urgency cues on almost every send ("only 1 day left", "don't miss out"). Also promoting new features — wishlist price-drop alerts and a $3,000 travel credits competition to drive app installs.</p><div class="tag-row"><span class="tag tag-tone">FOMO / urgency</span><span class="tag tag-disc">Up to 50% off</span><span class="tag tag-seg">Marketplace</span></div></div>
+        <div class="sender-col"><div class="sender-col-label">Destinations &amp; pricing</div><p>Asia (river cruises), cultural tours globally, bestselling destinations broadly. Country-agnostic marketplace model promoting tours across all operators and regions — no specific pricing in emails.</p><div class="tag-row"><span class="tag tag-dest">Asia</span><span class="tag tag-dest">Cultural tours</span><span class="tag tag-dest">Global</span></div></div>
+      </div>
+    </div>
+
+    <div class="sender-card">
+      <div class="sender-head"><div><div class="sender-name">Exoticca</div><div class="sender-domain">news@email.exoticca.com</div></div><div><div class="sender-freq">5</div><div class="sender-freq-label">emails / 10 days</div></div></div>
+      <div class="sender-subjects"><strong>Subject lines</strong> "SPRING BLACK FRIDAY is here!" &middot; "Flash Sale: 60% off favorites" &middot; "Knockout Deal: Spain from $1,299" &middot; "Last chance: Explore Spain for less"</div>
+      <div class="sender-body">
+        <div class="sender-col"><div class="sender-col-label">Messaging strategy</div><p>Extremely promotion-heavy. Creates artificial sale events ("Spring Black Friday", "Knockout Deal") to manufacture urgency. Flights included is a headline differentiator. Flex cancellation at $99/pp used as a trust lever. Prices per person, based on two passengers.</p><div class="tag-row"><span class="tag tag-tone">Flash sale events</span><span class="tag tag-disc">Up to 70% off</span><span class="tag tag-seg">Flights included</span></div></div>
+        <div class="sender-col"><div class="sender-col-label">Destinations &amp; pricing</div><p>Spain 9 days from <strong>$1,299/pp</strong> (70% off). Barcelona &amp; Mallorca 9 days from <strong>$1,799/pp</strong> (35% off). Northern Spain 11 days from <strong>$2,199/pp</strong> (35% off). Portugal &amp; Spain 9 days from <strong>$1,699/pp</strong> (45% off). All flights included.</p><div class="tag-row"><span class="tag tag-dest">Spain</span><span class="tag tag-dest">Portugal</span><span class="tag tag-dest">Europe</span></div></div>
+      </div>
+    </div>
+
+    <div class="sender-card">
+      <div class="sender-head"><div><div class="sender-name">Intrepid Travel</div><div class="sender-domain">intrepid@edm.intrepidtravel.com</div></div><div><div class="sender-freq">4</div><div class="sender-freq-label">emails / 10 days</div></div></div>
+      <div class="sender-subjects"><strong>Subject lines</strong> "Did you think you missed out?" &middot; "Trips for under $2000" &middot; "This is the Intrepid Effect" &middot; "Sale extended – up to 20% off"</div>
+      <div class="sender-body">
+        <div class="sender-col"><div class="sender-col-label">Messaging strategy</div><p>Blends purpose-driven brand messaging ("The Intrepid Effect", responsible travel) with an active sale at up to 20% off, extended to 22 May. Personalised subject lines. Sends to multiple regional segments (AU, CA, US, UK). Also publishes thought leadership content alongside promotions.</p><div class="tag-row"><span class="tag tag-tone">Values-led</span><span class="tag tag-disc">Up to 20% off</span><span class="tag tag-seg">Multi-market</span></div></div>
+        <div class="sender-col"><div class="sender-col-label">Destinations &amp; pricing</div><p>Japan (Premium 12 days), Peru (Majestic 15 days), Costa Rica &amp; Panama (12 days), Iceland (9 days), Rome to Amalfi (8 days), Alaska (8 days). Trips under <strong>$2,000</strong> prominently featured. Land price only; departures May 2026 – Mar 2027.</p><div class="tag-row"><span class="tag tag-dest">Japan</span><span class="tag tag-dest">Peru</span><span class="tag tag-dest">Iceland</span><span class="tag tag-dest">Alaska</span></div></div>
+      </div>
+    </div>
+
+    <div class="sender-card">
+      <div class="sender-head"><div><div class="sender-name">Luxury Escapes</div><div class="sender-domain">email@m.luxuryescapes.com</div></div><div><div class="sender-freq">4</div><div class="sender-freq-label">emails / 10 days</div></div></div>
+      <div class="sender-subjects"><strong>Subject lines</strong> "It's Back! The Mulia Bali All-Time Bestselling Suites w. Daily Breakfast, Dinner &amp; Free-Flow Cocktails" &middot; "Ends Today! Fiji Adults-Only Tokoriki Island Paradise"</div>
+      <div class="sender-body">
+        <div class="sender-col"><div class="sender-col-label">Messaging strategy</div><p>Property-by-property flash deals with a strong "ends today" urgency model. Value framed through inclusions bundling (breakfast, dinner, free-flow drinks, dining credits) — no % discounts shown. Loyalty membership (Bronze/Points) drives repeat engagement. Near-daily send cadence.</p><div class="tag-row"><span class="tag tag-tone">Inclusions-led</span><span class="tag tag-tone">Urgency</span><span class="tag tag-seg">Loyalty programme</span></div></div>
+        <div class="sender-col"><div class="sender-col-label">Destinations &amp; pricing</div><p>Bali (Mulia, Alila Seminyak), Fiji (Tokoriki adults-only), Gold Coast (The Star Grand), Melbourne (Langham), Hunter Valley, Khao Lak Thailand. Strong Australia / Pacific / SE Asia focus. Value communicated through inclusions rather than headline prices.</p><div class="tag-row"><span class="tag tag-dest">Bali</span><span class="tag tag-dest">Fiji</span><span class="tag tag-dest">Gold Coast</span><span class="tag tag-dest">Thailand</span></div></div>
+      </div>
+    </div>
+
+    <div class="sender-card">
+      <div class="sender-head"><div><div class="sender-name">Flashpack</div><div class="sender-domain">readytoescape@flashpack.com</div></div><div><div class="sender-freq">4</div><div class="sender-freq-label">emails / 10 days</div></div></div>
+      <div class="sender-subjects"><strong>Subject lines</strong> "Only got 3 days? Book this." &middot; "Do you need a Wellbeing trip?" &middot; "How to stay on a private island" &middot; "Final day of summer sale"</div>
+      <div class="sender-body">
+        <div class="sender-col"><div class="sender-col-label">Messaging strategy</div><p>Lifestyle and aspiration over price. Targets solo travellers in their 30s–40s seeking meaningful experiences and social connection. Content mix: wellbeing travel, short trips (3 days), exotic private island stays. Summer sale recently ended — promotions are infrequent vs. competitors.</p><div class="tag-row"><span class="tag tag-tone">Aspirational</span><span class="tag tag-seg">Solo 30s–40s</span><span class="tag tag-disc">Seasonal sale only</span></div></div>
+        <div class="sender-col"><div class="sender-col-label">Destinations &amp; pricing</div><p>Colombia, Philippines, private islands. Global reach with a premium, exclusive angle. Wellbeing travel is a dedicated trip category. Pricing not featured in emails — premium positioning implies higher price points than discount operators.</p><div class="tag-row"><span class="tag tag-dest">Colombia</span><span class="tag tag-dest">Philippines</span><span class="tag tag-dest">Private islands</span></div></div>
+      </div>
+    </div>
+
+    <div class="sender-card">
+      <div class="sender-head"><div><div class="sender-name">WeRoad</div><div class="sender-domain">hello@mail.weroad.com</div></div><div><div class="sender-freq">3</div><div class="sender-freq-label">emails / 10 days</div></div></div>
+      <div class="sender-subjects"><strong>Subject lines</strong> "This is killing friendships" &middot; "Come discover your next trip" (discount code inside) &middot; "Pssst... Have you discovered MyWeRoad yet?"</div>
+      <div class="sender-body">
+        <div class="sender-col"><div class="sender-col-label">Messaging strategy</div><p>Strong community angle — tackling "catch-up culture" and friendship loneliness themes. Discount code in welcome/re-engagement emails. App loyalty feature (MyWeRoad) promoted for early access and exclusive deals. Quirky, editorial tone clearly differentiated from mainstream operators.</p><div class="tag-row"><span class="tag tag-tone">Community</span><span class="tag tag-tone">Editorial</span><span class="tag tag-seg">Group travel 20s–30s</span></div></div>
+        <div class="sender-col"><div class="sender-col-label">Destinations &amp; pricing</div><p>Not destination-specific in recent emails — broad 300+ itinerary catalogue promoted. Discount code offered to new and returning subscribers. Community travel positioning for a younger demographic with app-exclusive perks.</p><div class="tag-row"><span class="tag tag-dest">Global catalogue</span><span class="tag tag-disc">Discount code</span></div></div>
+      </div>
+    </div>
+
+    <div class="sender-card">
+      <div class="sender-head"><div><div class="sender-name">Bunnik Tours</div><div class="sender-domain">reply@email.bunniktours.com.au</div></div><div><div class="sender-freq">3</div><div class="sender-freq-label">emails / 10 days</div></div></div>
+      <div class="sender-subjects"><strong>Subject lines</strong> "South America in 2027, but make it luxury!" &middot; "Go on… South America looks good on you in 2027!" &middot; "Discover Africa, the Bunnik way — 2027 dates released"</div>
+      <div class="sender-body">
+        <div class="sender-col"><div class="sender-col-label">Messaging strategy</div><p>Luxury in-style touring with a strong 2027 forward-booking push. Uses CEO video content ("Sacha Bunnik's Adventures") for authenticity. Belmond hotel partnerships are a key USP. Zero discounting — value communicated entirely through quality, comfort, and premium experiences.</p><div class="tag-row"><span class="tag tag-tone">Luxury</span><span class="tag tag-tone">2027 forward booking</span><span class="tag tag-seg">AU operator</span></div></div>
+        <div class="sender-col"><div class="sender-col-label">Destinations &amp; pricing</div><p>South America In-Style (26 days, Mar–Nov 2027). Peru In-Style (17 days, Mar–Nov 2027). Africa (2027 dates newly released). Highlights: Machu Picchu, Iguazu Falls, Belmond Hotel das Cataratas, Sacred Valley, Colca Canyon. No pricing in emails.</p><div class="tag-row"><span class="tag tag-dest">South America</span><span class="tag tag-dest">Peru</span><span class="tag tag-dest">Africa</span></div></div>
+      </div>
+    </div>
+
+    <div class="sender-card">
+      <div class="sender-head"><div><div class="sender-name">Trafalgar</div><div class="sender-domain">newsletter@em.trafalgar.com</div></div><div><div class="sender-freq">2</div><div class="sender-freq-label">emails / 10 days</div></div></div>
+      <div class="sender-subjects"><strong>Subject lines</strong> "Step beyond the shore… and save up to 50%" &middot; "You won't worry about a thing, Chrystal"</div>
+      <div class="sender-body">
+        <div class="sender-col"><div class="sender-col-label">Messaging strategy</div><p>Two distinct messaging approaches in the same period: (1) discount-led — up to 50% off river cruises with local immersion angle, and (2) reassurance-led — stress-free, "you won't worry about a thing" positioning. Effectively blending value and trust messaging.</p><div class="tag-row"><span class="tag tag-disc">Up to 50% off</span><span class="tag tag-tone">Trust / ease</span></div></div>
+        <div class="sender-col"><div class="sender-col-label">Destinations &amp; pricing</div><p>River cruises with European focus. Shore experiences and local immersion promoted as key differentiators. Luxury river cruise positioning. Pricing not stated in emails — leads to website for current rates.</p><div class="tag-row"><span class="tag tag-dest">River cruises</span><span class="tag tag-dest">Europe</span></div></div>
+      </div>
+    </div>
+
+    <div class="sender-card">
+      <div class="sender-head"><div><div class="sender-name">Trailfinders</div><div class="sender-domain">subscribe@mailer.trailfinders.com</div></div><div><div class="sender-freq">2</div><div class="sender-freq-label">emails / 10 days</div></div></div>
+      <div class="sender-subjects"><strong>Subject lines</strong> "10 Day China Tour with DIRECT flights from £1,899" &middot; "European Summer Cruise SALE"</div>
+      <div class="sender-body">
+        <div class="sender-col"><div class="sender-col-label">Messaging strategy</div><p>Strong price-point headline with flights included as the primary hook. Direct, no-frills promotional style. Multiple destinations bundled in one email. UK market operator pricing in GBP. Very low editorial investment — pure offer-driven communications.</p><div class="tag-row"><span class="tag tag-tone">Price-led</span><span class="tag tag-seg">UK market (GBP)</span><span class="tag tag-seg">Flights included</span></div></div>
+        <div class="sender-col"><div class="sender-col-label">Destinations &amp; pricing</div><p>China 10 days direct flights from <strong>£1,899</strong>. California motorhome 16 days from <strong>£1,349</strong>. Thailand 2 weeks from <strong>£1,849</strong>. European summer cruise sale. Broad global offering at accessible UK price points.</p><div class="tag-row"><span class="tag tag-dest">China</span><span class="tag tag-dest">Europe</span><span class="tag tag-dest">Thailand</span></div></div>
+      </div>
+    </div>
+
+    <div class="sender-card">
+      <div class="sender-head"><div><div class="sender-name">Tripadeal</div><div class="sender-domain">noreply@e.tripadeal.com.au</div></div><div><div class="sender-freq">2</div><div class="sender-freq-label">emails / 10 days</div></div></div>
+      <div class="sender-subjects"><strong>Subject lines</strong> "5-Star China &amp; Yangtze Cruise is on sale!" &middot; "Exclusive adventures from $1,099 including flights"</div>
+      <div class="sender-body">
+        <div class="sender-col"><div class="sender-col-label">Messaging strategy</div><p>Hard price-led with flights included as the headline hook. Bucket list destinations at surprising price points. "Valued up to X" framing amplifies perceived value. Personalised subject lines. Australian market focus with AUD pricing.</p><div class="tag-row"><span class="tag tag-tone">Price-led</span><span class="tag tag-seg">AU market</span><span class="tag tag-seg">Flights included</span></div></div>
+        <div class="sender-col"><div class="sender-col-label">Destinations &amp; pricing</div><p>From <strong>$1,099 including flights</strong>. China Yangtze cruise with <strong>$250 saving</strong> (Terracotta Warriors, Great Wall). Alaska &amp; Canada Discovery 16 days from <strong>$4,999/pp</strong> twin share (2027 departures).</p><div class="tag-row"><span class="tag tag-dest">China</span><span class="tag tag-dest">Alaska</span><span class="tag tag-dest">Canada</span></div></div>
+      </div>
+    </div>
+
+    <div class="sender-card">
+      <div class="sender-head"><div><div class="sender-name">Contiki</div><div class="sender-domain">newsletter@exactmail.contiki.com</div></div><div><div class="sender-freq">1</div><div class="sender-freq-label">emails / 10 days</div></div></div>
+      <div class="sender-subjects"><strong>Subject lines</strong> "Tell your boss you're quitting" — Vietnam, New Zealand, Cambodia, Europe</div>
+      <div class="sender-body">
+        <div class="sender-col"><div class="sender-col-label">Messaging strategy</div><p>Highly editorial, irreverent brand voice. Content-first via the six-two travel blog embedded in email. Promotes new trips over discounts. UGC angle — actively recruiting subscribers to write for the travel blog. Targets 18–35 group travellers seeking adventure and social connection.</p><div class="tag-row"><span class="tag tag-tone">Irreverent</span><span class="tag tag-tone">Editorial</span><span class="tag tag-seg">18–35</span></div></div>
+        <div class="sender-col"><div class="sender-col-label">Destinations &amp; pricing</div><p>Vietnam (vespa, street food), New Zealand (winter, hot springs), Cambodia (tuk-tuk), Europe — Scandinavia (editor's pick for peak summer), Latvia (bog shoe hiking). Strong Asia and Europe coverage. No pricing — content-first approach.</p><div class="tag-row"><span class="tag tag-dest">Vietnam</span><span class="tag tag-dest">New Zealand</span><span class="tag tag-dest">Europe</span></div></div>
+      </div>
+    </div>
+
+    <div class="sender-card">
+      <div class="sender-head"><div><div class="sender-name">APT Luxury Travel</div><div class="sender-domain">email@email.aptouring.com</div></div><div><div class="sender-freq">1</div><div class="sender-freq-label">emails / 10 days</div></div></div>
+      <div class="sender-subjects"><strong>Subject lines</strong> "Your APT journey starts here." — welcome / re-engagement email</div>
+      <div class="sender-body">
+        <div class="sender-col"><div class="sender-col-label">Messaging strategy</div><p>Welcome/re-engagement email. Brand positioned as Australia's leading luxury travel company with nearly a century of history. Expert guides, meticulous attention to detail, unforgettable moments — aspirational language throughout. No discounts or pricing. Brochure download is the next conversion step.</p><div class="tag-row"><span class="tag tag-tone">Luxury brand</span><span class="tag tag-seg">AU operator</span><span class="tag tag-disc">No discounting</span></div></div>
+        <div class="sender-col"><div class="sender-col-label">Destinations &amp; pricing</div><p>Full global portfolio presented as destination categories: Europe, North America, Australia, Asia, Africa, South America, New Zealand, Antarctica. No specific itineraries or pricing — brochure-led conversion strategy.</p><div class="tag-row"><span class="tag tag-dest">Global portfolio</span><span class="tag tag-dest">Antarctica</span></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-header"><span class="section-num">03</span><h2>Strategic insights</h2></div>
+  <div class="insights-grid">
+
+    <div class="insight-card">
+      <div class="insight-num">01</div>
+      <div><div class="insight-title">The discount battle is intensifying</div><p class="insight-body">Exoticca and TourRadar are fighting an aggressive price war — Exoticca claiming up to <strong>70% off</strong> and creating artificial sale events ("Spring Black Friday") to manufacture urgency. Intrepid is running a more modest sale at <strong>20% off</strong> (extended to 22 May), anchored to brand values. Most premium operators — Bunnik, Flashpack, Exodus, APT — are not discounting at all, signalling a clear market split.</p></div>
+    </div>
+
+    <div class="insight-card">
+      <div class="insight-num">02</div>
+      <div><div class="insight-title">Flights included is a key conversion lever</div><p class="insight-body">Exoticca, Trailfinders, and Tripadeal consistently lead with <strong>"flights included"</strong> as a headline hook. This creates a direct comparison challenge for land-only operators. If your products exclude flights, this is worth monitoring closely — it significantly shapes how customers perceive value.</p></div>
+    </div>
+
+    <div class="insight-card">
+      <div class="insight-num">03</div>
+      <div><div class="insight-title">Hot destinations right now</div><p class="insight-body"><strong>Spain &amp; Portugal</strong> are being pushed hardest by Exoticca. <strong>South America</strong> (Peru, Patagonia, Iguazu) is getting strong 2027 forward-booking treatment from Bunnik. <strong>Asia</strong> (Vietnam, Japan, Cambodia) features prominently across Contiki and Intrepid. <strong>Bali &amp; Fiji</strong> dominate Luxury Escapes. <strong>Africa</strong> is emerging as a 2027 opportunity with Bunnik launching early.</p></div>
+    </div>
+
+    <div class="insight-card">
+      <div class="insight-num">04</div>
+      <div><div class="insight-title">The market is bifurcating</div><p class="insight-body">The travel email market is clearly splitting into two camps: <strong>discount/urgency operators</strong> (Exoticca, TourRadar, Tripadeal, Trailfinders) heavy on price and FOMO, vs. <strong>lifestyle/values brands</strong> (Flashpack, WeRoad, Contiki, Bunnik, Exodus) focused on community, purpose, and premium experiences. Intrepid is attempting to straddle both — a useful case study to watch.</p></div>
+    </div>
+
+    <div class="insight-card">
+      <div class="insight-num">05</div>
+      <div><div class="insight-title">2027 forward booking is an early mover opportunity</div><p class="insight-body">Bunnik Tours is aggressively pushing 2027 itineraries right now for South America and Africa. This early forward-booking strategy, combined with premium Belmond partnerships, locks in high-value customers before competitors enter. Consider whether any <strong>2027 destinations in your portfolio</strong> should be promoted now to capture early demand.</p></div>
+    </div>
+
+    <div class="insight-card">
+      <div class="insight-num">06</div>
+      <div><div class="insight-title">Content marketing as a brand differentiator</div><p class="insight-body">Contiki (six-two blog) and WeRoad are using editorial content — friendship, cultural immersion, travel tips — as a primary email strategy rather than promotions. Exodus uses traveller testimonials and post-booking upsell content. This approach builds engagement and brand affinity <strong>without eroding price perception</strong> — worth considering if your positioning is premium or values-led.</p></div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <span>Competitor Email Intelligence &mdash; 8 May 2026</span>
+  <span>13 senders &middot; 47+ emails &middot; Generated from Gmail inbox analysis</span>
+</footer>
+
+</body>
+</html>

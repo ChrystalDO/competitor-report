@@ -1,0 +1,14 @@
+{
+  "name": "competitor-report",
+  "version": "1.0.0",
+  "description": "Automated competitor email intelligence report",
+  "main": "generate-report.js",
+  "scripts": {
+    "generate": "node generate-report.js",
+    "test": "node generate-report.js --dry-run"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.0",
+    "googleapis": "^140.0.0"
+  }
+}
