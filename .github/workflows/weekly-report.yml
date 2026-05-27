@@ -5,7 +5,6 @@ on:
     # Every Monday at 6:00 AM AEST (Sunday 8:00 PM UTC)
     - cron: '0 20 * * 0'
   workflow_dispatch:
-    # Also allows manual trigger from GitHub Actions tab
 
 jobs:
   generate-report:
@@ -20,11 +19,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Generate report
         env:
@@ -41,3 +40,7 @@ jobs:
           git add index.html
           git diff --staged --quiet || git commit -m "Weekly report update $(date +'%Y-%m-%d')"
           git push
+
+      - name: Trigger Vercel redeploy
+        run: |
+          curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
