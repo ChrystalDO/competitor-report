@@ -6,8 +6,41 @@ const { google } = require('googleapis');
 const Anthropic = require('@anthropic-ai/sdk');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 
 const isDryRun = process.argv.includes('--dry-run');
+
+// ── NETWORK WORKAROUND ───────────────────────────────────────────────────────
+// Recent Node.js versions (22.x/24.x) changed how keep-alive sockets get reused,
+// which triggers a known bug in gaxios/node-fetch where a pooled socket to
+// *.googleapis.com gets closed mid-response. This surfaces as:
+//   GaxiosError: Invalid response body ... Premature close (ERR_STREAM_PREMATURE_CLOSE)
+// most commonly during the OAuth2 token refresh. Disabling keep-alive avoids the
+// bad socket reuse entirely (each request gets a fresh connection).
+https.globalAgent = new https.Agent({ keepAlive: false });
+
+// ── RETRY HELPER ──────────────────────────────────────────────────────────────
+async function withRetry(fn, { retries = 4, baseDelayMs = 1000, label = 'operation' } = {}) {
+  let lastErr;
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastErr = err;
+      const isPrematureClose =
+        err.code === 'ERR_STREAM_PREMATURE_CLOSE' ||
+        err.message?.includes('Premature close') ||
+        err.cause?.code === 'ERR_STREAM_PREMATURE_CLOSE';
+
+      if (attempt === retries || !isPrematureClose) throw err;
+
+      const delay = baseDelayMs * Math.pow(2, attempt - 1);
+      console.warn(`  ${label} failed (${err.message}) — retrying in ${delay}ms [attempt ${attempt}/${retries}]`);
+      await new Promise(res => setTimeout(res, delay));
+    }
+  }
+  throw lastErr;
+}
 
 // ── GMAIL AUTH ──────────────────────────────────────────────────────────────
 async function getGmailClient() {
@@ -18,6 +51,13 @@ async function getGmailClient() {
   auth.setCredentials({
     refresh_token: process.env.GMAIL_REFRESH_TOKEN
   });
+
+  // Force the token refresh up front, wrapped in our own retry loop.
+  // This makes auth failures fail fast/clearly here rather than resurfacing
+  // deep inside the first Gmail API call, and gives premature-close errors
+  // more (and longer-backed-off) chances to succeed than gaxios's internal retry alone.
+  await withRetry(() => auth.getAccessToken(), { label: 'OAuth token refresh' });
+
   return google.gmail({ version: 'v1', auth });
 }
 
